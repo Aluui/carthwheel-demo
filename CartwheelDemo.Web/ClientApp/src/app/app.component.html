@@ -1,10 +1,47 @@
+<!-- nav -->
 <div class='container-fluid'>
   <div class='row'>
-    <div class='col-sm-3'>
-      <app-nav-menu></app-nav-menu>
+    <div class='col-sm-3' *ngIf="currentUser">
+      <app-nav-menu (logout)="logout()"></app-nav-menu>
     </div>
     <div class='col-sm-9 body-content'>
+      <alert></alert>
       <router-outlet></router-outlet>
     </div>
   </div>
+</div>
+
+
+<!--<nav class="navbar navbar-expand navbar-dark bg-dark" *ngIf="currentUser">
+  <div class="navbar-nav">
+    <a class="nav-item nav-link" routerLink="/">Home</a>
+    <a class="nav-item nav-link" routerLink="/allusers">Users</a>
+    <a class="nav-item nav-link" (click)="logout()">Logout</a>
+  </div>
+</nav>
+<div *ngIf="currentUser">
+  <app-nav-menu (logout)="logout()"></app-nav-menu>
+</div>-->
+
+
+<!-- main app container -->
+<!--<div class="jumbotron">
+  <div class="container">
+    <div class="row">
+      <div class="">
+        <alert></alert>
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</div>-->
+
+<!-- credits -->
+<div class="text-center">
+  <p>
+    <a href="http://jasonwatmore.com/post/2018/10/29/angular-7-user-registration-and-login-example-tutorial" target="_top">Angular 7 - User Registration and Login Example & Tutorial</a>
+  </p>
+  <p>
+    <a href="http://jasonwatmore.com" target="_top">JasonWatmore.com</a>
+  </p>
 </div>

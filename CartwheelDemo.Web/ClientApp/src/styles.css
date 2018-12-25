@@ -1,1 +1,21 @@
 /* You can add global styles to this file, and also import other style files */
+.is-invalid {
+  border: 1px solid red;
+}
+
+  .is-invalid + .invalid-feedback,
+  .is-invalid + span + .invalid-feedback,
+  .is-invalid + img + .invalid-feedback {
+    content: '*';
+    background-color: #ea3b3b;
+  }
+
+.sign-up-empty .logo {
+  border: 1px solid gray;
+  border-radius: 50%;
+  width: 3em;
+  height: 3em;
+  line-height: 3em;
+  text-align: center;
+  background-color: #d8d8d8;
+}

@@ -1,0 +1,43 @@
+version: '3.6'  
+
+services: # these are all the services that a docker app uses
+  postgres:
+    container_name: 'cartwheel-postgres'
+    image: postgres
+    networks: 
+      - app-network
+    ports:
+    - "5432:5432" #for accessing the postgres db server
+    volumes:
+      - ./init/postgres_startup:/docker-entrypoint-initdb.d
+      - 'cartwheelpostgres:/var/lib/postgresql/data'
+    #login: 
+      #POSTGRES_USER: cartwheel_aluui
+      #POSTGRES_PASSWORD: cartwheel_t3st_p4ssw0rd
+
+  #login to ph4admin by going to 192.168.99.100:5300
+  #hit refresh a few times
+  ph4admin:
+    container_name: 'cartwheel-ph4admin'
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: demo@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: demopassword
+    networks: 
+      - app-network
+    ports:
+    - "5300:80" #for postgres db managager
+    depends_on:
+      - "postgres"
+    volumes:
+      - ./init/ph4admin_startup:/docker-entrypoint-initdb.d
+      - 'cartwheelpgadmin4:/var/lib/pgadmin'
+
+networks:
+  app-network:
+    driver: bridge
+
+#helps persist db between containers
+volumes:
+  cartwheelpostgres: {}
+  cartwheelpgadmin4: {}

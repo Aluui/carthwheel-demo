@@ -1,0 +1,82 @@
+
+
+.sign-up-empty {
+  /*max-width: 1440px;
+  height: 1051px;*/
+  overflow: hidden;
+  max-height: 650px;
+  background-color: #ffffff;
+
+  
+
+
+  > div {
+    float: left;
+
+    input {
+      border: none;
+      border-bottom: 1px solid #939598;
+      cursor: pointer;
+    }
+
+    img.Group-2 {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
+
+    .visibility-off-copy {
+      width: 19px;
+      /*height: 16px;*/
+      object-fit: contain;
+      pointer-events: all;
+      /*background-color: #000000;*/
+    }
+
+    .visibility-off-copy:hover {
+      cursor: pointer;
+      background-color: aliceblue;
+    }
+
+    .names {
+      width: 45%;
+      float: left;
+    }
+
+    .names:first-child {
+      margin-right: 2%;
+    }
+
+    input[type='checkbox'].form-control {
+      width: auto;
+      float: left;
+      height: auto;
+    }
+  }
+  /*.leftSignupSection{
+    width: 35%;
+  }
+
+  .rightInfoSection {
+    width: 65%;
+  }*/
+  .registerForm {
+    margin-top: 2em;
+  }
+
+  .floatLeft {
+    float: left;
+  }
+
+  .clearFloat {
+    clear: both;
+  }
+}
+
+
+@media (max-width: 767px) {
+  /* On small screens, the nav menu spans the full width of the screen. Leave a space for it. */
+  .sign-up-empty {
+    max-height: 850px;
+  }
+}
