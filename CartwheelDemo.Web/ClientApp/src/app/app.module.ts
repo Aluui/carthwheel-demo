@@ -10,13 +10,14 @@ import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { routing } from './app.routing';
 import { RegisterComponent } from './register';
-import { AuthenticationService, AlertService, UserService } from './_services';
+import { AuthenticationService, AlertService, UserService, ToastService } from './_services';
 import { CommonModule } from '@angular/common';
 import { AlertComponent } from './_components';
 import { BasicAuthInterceptor, ErrorInterceptor } from './_helpers';
 import { AuthGuard } from './_guards';
 import { LoginComponent } from './login';
 import { UserComponent } from './users/users.component';
+import { ToastyModule } from 'ng2-toasty';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { UserComponent } from './users/users.component';
     FormsModule,
     CommonModule,
     ReactiveFormsModule,
-    routing
+    routing,
+    ToastyModule.forRoot()
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptor, multi: true },
@@ -43,7 +45,8 @@ import { UserComponent } from './users/users.component';
     AuthenticationService,
     AlertService,
     UserService,
-    AuthGuard
+    AuthGuard,
+    ToastService
   ],
   bootstrap: [AppComponent]
 })

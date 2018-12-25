@@ -43,10 +43,15 @@ export class AuthenticationService {
     return Promise((resolve, reject) => {
       registerResult.subscribe(
         user => {
-          // save the user into the localstorage
-          localStorage.setItem(this.currentUserString, JSON.stringify(user));
-          this.currentUserSubject.next(user as User);
-          resolve(true);
+          if (user.loginResult) {
+            // save the user into the localstorage
+            localStorage.setItem(this.currentUserString, JSON.stringify(user));
+            this.currentUserSubject.next(user as User);
+            resolve(true);
+          }
+          else {
+            reject(false);
+          }
         }, error => {
           reject(error);
         }

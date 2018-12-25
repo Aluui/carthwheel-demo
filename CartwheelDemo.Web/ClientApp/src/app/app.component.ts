@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { User } from './_models';
 import { Router } from '@angular/router';
-import { AuthenticationService } from './_services';
+import { AuthenticationService, ToastService, ToastType } from './_services';
 import { environment } from '../environments/environment';
 import { Promise } from 'q';
 
@@ -13,37 +13,37 @@ import { Promise } from 'q';
 export class AppComponent {
   currentUser: User;
   title = 'app';
-  
+
   constructor(
     private router: Router,
     private authenticationService: AuthenticationService,
+    private toastService: ToastService
   ) {
-    //this.currentUser = this.authenticationService.getUser();
+    // this.currentUser = this.authenticationService.getUser();
     this.authenticationService.currentUser.subscribe(user => {
       this.currentUser = user;
 
-      let tokenValid = this.userTokenIsValid(user);
+      const tokenValid = this.userTokenIsValid(user);
 
       if (tokenValid) {
         tokenValid.then(
           data => {
             if (data === true) {
-              //this.router.navigate(['']);
+              // this.router.navigate(['']);
             } else {
               this.logout();
               this.router.navigate(['/login']);
             }
           }
         );
-      }
-      else {
+      } else {
         this.router.navigate(['/register']);
       }
     });
   }
 
   userTokenIsValid(user: User): Promise<boolean> {
-    //let tokenIsValid = false;
+    // let tokenIsValid = false;
     let result: Promise<boolean> = null;
 
     if (user && user.authData) {
@@ -61,11 +61,12 @@ export class AppComponent {
     }
 
     return result;
-    //return tokenIsValid;
+    // return tokenIsValid;
   }
 
   logout() {
     this.authenticationService.logout();
-    //this.router.navigate(['/register']);
+    this.toastService.showToastMessage('Logout successful', ToastType.Success);
+    // this.router.navigate(['/register']);
   }
 }
