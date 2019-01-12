@@ -162,15 +162,15 @@ namespace CartwheelDemo.Web.Controllers
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> IsUserAuthenticated([FromBody] string token)
+        public async Task<bool> IsUserAuthenticated([FromBody] string token)
         {
             var tokenIsValid = await IsTokenValid(token);
             if (tokenIsValid)
             {
-                return new JsonResult(true);
+                return true;
             }
 
-            return new JsonResult(false);
+            return false;
         }
 
         private async Task<bool> IsTokenValid(string token)

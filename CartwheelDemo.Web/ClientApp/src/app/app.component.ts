@@ -3,7 +3,7 @@ import { User } from './_models';
 import { Router } from '@angular/router';
 import { AuthenticationService, ToastService, ToastType } from './_services';
 import { environment } from '../environments/environment';
-import { Promise } from 'q';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -26,14 +26,18 @@ export class AppComponent {
       const tokenValid = this.userTokenIsValid(user);
 
       if (tokenValid) {
-        tokenValid.then(
-          data => {
-            if (data === true) {
+        tokenValid.subscribe(
+          (val) => {
+            if (val === true) {
               // this.router.navigate(['']);
             } else {
               this.logout();
               this.router.navigate(['/login']);
             }
+          },
+          (error) => {
+            this.logout();
+            this.router.navigate(['/login']);
           }
         );
       } else {
@@ -42,26 +46,17 @@ export class AppComponent {
     });
   }
 
-  userTokenIsValid(user: User): Promise<boolean> {
+  userTokenIsValid(user: User): Observable<boolean> {
     // let tokenIsValid = false;
-    let result: Promise<boolean> = null;
+    let result: Observable<boolean> = null;
 
     if (user && user.authData) {
 
-      result = Promise((resolve, reject) => {
-        this.authenticationService.isUserTokenValid(user.authData).then(
-          isValid => {
+      result = this.authenticationService.isUserTokenValid(user.authData);
 
-            resolve(isValid);
-          },
-          error => {
-            reject(error);
-          });
-      });
     }
 
     return result;
-    // return tokenIsValid;
   }
 
   logout() {

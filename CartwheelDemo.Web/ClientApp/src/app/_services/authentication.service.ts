@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+// tslint:disable-next-line:import-blacklist
 import { BehaviorSubject, Observable } from 'rxjs';
 
 import { User } from '../_models';
 import { UserService } from './user.service';
-import { Promise } from 'q';
 
 @Injectable()
 export class AuthenticationService {
@@ -21,67 +21,52 @@ export class AuthenticationService {
     return this.currentUserSubject.value;
   }
 
-  isUserTokenValid(token: string): Promise<boolean> {
-    //return this.userService.isUserAuthenticated(token);
+  isUserTokenValid(token: string): Observable<boolean> {
+    // return this.userService.isUserAuthenticated(token);
 
-    let tokenValidResult = this.userService.isUserAuthenticated(token);
+    const tokenValidResult = this.userService.isUserAuthenticated(token);
 
-    return Promise((resolve, reject) => {
-      tokenValidResult.subscribe(
-        (isValid: boolean) => {
-          resolve(isValid);
-        }, error => {
-          reject(error);
-        }
-      );
-    });
+    return tokenValidResult;
+
   }
 
   login(email: string, password: string) {
-    let registerResult = this.userService.login(email, password);
+    const registerResult = this.userService.login(email, password);
 
-    return Promise((resolve, reject) => {
-      registerResult.subscribe(
-        user => {
-          if (user.loginResult) {
-            // save the user into the localstorage
-            localStorage.setItem(this.currentUserString, JSON.stringify(user));
-            this.currentUserSubject.next(user as User);
-            resolve(true);
-          }
-          else {
-            reject(false);
-          }
-        }, error => {
-          reject(error);
+    registerResult.subscribe(
+      (user) => {
+        if (user.loginResult) {
+          // save the user into the localstorage
+          localStorage.setItem(this.currentUserString, JSON.stringify(user));
+          this.currentUserSubject.next(user as User);
         }
-      );
-    });
+      }
+    );
+
+    return registerResult;
+
   }
 
   register(user: any) {
-    let newUser = new User();
+    const newUser = new User();
     newUser.email = user.email;
     newUser.firstName = user.firstName;
     newUser.companyName = user.companyName;
     newUser.lastName = user.lastName;
     newUser.password = user.password;
 
-    let registerResult = this.userService.register(newUser);
+    const registerResult = this.userService.register(newUser);
 
-    return Promise((resolve, reject) => {
-      registerResult.subscribe(
-        user => {
-          // save the data into the localstorage
-          localStorage.setItem(this.currentUserString, JSON.stringify(user));
-          this.currentUserSubject.next(user as User);
-          resolve(true);
-        }, error => {
-          reject(error);
-        }
-      );
-    });
-    
+    registerResult.subscribe(
+      (val) => {
+        // save the data into the localstorage
+        localStorage.setItem(this.currentUserString, JSON.stringify(user));
+        this.currentUserSubject.next(user as User);
+      }
+    );
+
+    return registerResult;
+
   }
 
 

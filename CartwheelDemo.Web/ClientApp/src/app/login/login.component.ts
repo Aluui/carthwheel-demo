@@ -52,7 +52,9 @@ export class LoginComponent implements OnInit {
 
     this.loading = true;
 
-    Promise.resolve(this.authenticationService.login(this.loginForm.value.email, this.loginForm.value.password)).then(
+    const loginResult = this.authenticationService.login(this.loginForm.value.email, this.loginForm.value.password);
+
+    loginResult.subscribe(
       (data) => {
         // console.log('Registration Data returned is: ', data);
         this.toastService.showToastMessage('Login successful', ToastType.Success);
@@ -65,7 +67,9 @@ export class LoginComponent implements OnInit {
         // this.router.navigate(['/register']);
         this.toastService.showToastMessage(errMsg, ToastType.Error);
         this.resetFormControls();
-      });
+      }
+    );
+
   }
 
   resetFormControls() {

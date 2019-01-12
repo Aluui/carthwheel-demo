@@ -80,15 +80,19 @@ export class RegisterComponent implements OnInit {
 
     this.loading = true;
 
-    Promise.resolve(this.authenticationService.register(this.registerForm.value)).then(
-      data => {
+    const registerResult = this.authenticationService.register(this.registerForm.value);
+
+    registerResult.subscribe(
+      (data) => {
         // console.log('Registration Data returned is: ', data);
         this.toastService.showToastMessage('Registration successful', ToastType.Success);
         this.router.navigate(['']);
       },
-      error => {
+      (error) => {
         this.toastService.showToastMessage(error, ToastType.Error);
         this.loading = false;
-      });
+      }
+    );
+
   }
 }

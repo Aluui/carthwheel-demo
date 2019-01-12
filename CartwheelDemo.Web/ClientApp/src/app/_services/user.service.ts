@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { RequestOptions } from '@angular/http';
 import { map } from 'rxjs/operators';
 import { User } from '../_models';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class UserService {
@@ -54,7 +55,7 @@ export class UserService {
 
   isUserAuthenticated(token: string) {
 
-    return this.http.post(`${this.apiUrl}/isuserauthenticated`, JSON.stringify(token), this.options);
+    return this.http.post(`${this.apiUrl}/isuserauthenticated`, JSON.stringify(token), this.options) as Observable<boolean>;
   }
 
   update(user: User) {
